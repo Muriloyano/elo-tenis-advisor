@@ -3,12 +3,14 @@
 import { useState, useEffect } from "react";
 import Papa from "papaparse";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button"; // Mantido, mas não é usado para o Logout
+import { supabase } from "../lib/supabaseClient"; 
 
-// --- CORREÇÃO APLICADA AQUI ---
-// Usando caminhos relativos (../) em vez de atalhos (@/)
+// --- CORREÇÃO DE IMPORTS ---
 import { MatchSimulator, SimulationData } from "../components/MatchSimulator";
 import { MatchResult, AnalysisResult } from "../components/MatchResult";
 import { Player } from "../types"; 
+import { UserMenu } from "@/components/UserMenu"; // <-- IMPORTADO O NOVO COMPONENTE
 // --- FIM DA CORREÇÃO ---
 
 
@@ -43,7 +45,6 @@ const Index = () => {
     });
   }, []); 
 
-
   // --- Funções de Cálculo ---
   const calculateEloProbs = (elo1: number, elo2: number) => {
     const eloDiff = elo1 - elo2;
@@ -59,7 +60,6 @@ const Index = () => {
   const getRecommendation = (ev1: number, ev2: number, player1: string, player2: string) => {
     const threshold = 5; 
     
-    // Corrigido (era ev1 > ev1)
     if (ev1 > threshold && ev1 > ev2) { 
       return `✓ Aposta de VALOR identificada em ${player1}. O Expected Value positivo de ${ev1.toFixed(2)}% indica que as odds estão favoráveis em relação à probabilidade real baseada no Elo.`;
     } else if (ev2 > threshold && ev2 > ev1) {
@@ -127,15 +127,29 @@ const Index = () => {
     setResult(null);
   };
 
+  // --- Função handleLogout removida, agora está no UserMenu.tsx ---
+
+
   return (
-    <div className="min-h-screen bg-gradient-result">
-      <div className="container max-w-2xl mx-auto px-4 py-8 md:py-12">
+    // Agora a div principal tem posicionamento relative
+    <div className="relative min-h-screen bg-gradient-result">
+      
+      {/* Botão de Logout para testes - REMOVIDO E SUBSTITUÍDO PELO MENU SANDUÍCHE */}
+      
+      {/* NOVO: Menu Sanduíche no canto superior direito */}
+      <div className="fixed top-4 right-4 z-50"> 
+          <UserMenu />
+      </div>
+      {/* FIM NOVO */}
+
+      {/* Ajustei o container para que o conteúdo não fique por baixo do menu fixo */}
+      <div className="container max-w-2xl mx-auto px-4 py-8 md:py-12 pt-20"> 
         {!result ? (
           <MatchSimulator 
             onSimulate={handleSimulate} 
             isLoading={isLoading}
             isDataLoading={!isDataLoaded}
-            allPlayers={allPlayers} // Passando a lista para o Combobox
+            allPlayers={allPlayers}
           />
         ) : (
           <MatchResult result={result} onBack={handleBack} />
