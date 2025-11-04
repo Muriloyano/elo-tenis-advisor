@@ -12,6 +12,8 @@ import { Player } from "../types";
 import { UserMenu } from "@/components/UserMenu"; 
 // --- FIM DA CORREÇÃO ---
 import Logo from "../components/Logo"; // <-- Importação da Logo (default)
+import "../index.css"
+
 
 const Index = () => {
   const { loading } = useAuth(); 

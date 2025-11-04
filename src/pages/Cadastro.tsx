@@ -8,6 +8,8 @@ import { supabase } from "../lib/supabaseClient";
 import { toast } from "sonner";
 import { useNavigate, Link } from "react-router-dom";
 import Logo from "../components/Logo"; // <-- Importação da Logo (default)
+import "../index.css"
+
 
 const SECRET_INVITE_TOKEN = import.meta.env.VITE_INVITE_TOKEN;
 
