@@ -75,8 +75,14 @@
   * {
     @apply border-border;
   }
-  body {
-    /* O body agora usa 'bg-background' (azul claro) e 'text-foreground' (azul escuro) */
+
+  /* --- CORREÇÃO APLICADA --- */
+  /* Aplicamos ao 'html' E ao 'body'.
+    Isso é mais forte e garante que o fundo da página 
+    inteira tenha a cor correta, vencendo qualquer 
+    regra de reset que possa estar interferindo.
+  */
+  html, body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
