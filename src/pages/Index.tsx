@@ -1,4 +1,3 @@
-// src/pages/Index.tsx
 import { useState, useEffect } from "react";
 import Papa from "papaparse";
 import { toast } from "sonner";
@@ -9,7 +8,7 @@ import { MatchSimulator, SimulationData } from "../components/MatchSimulator";
 import { MatchResult, AnalysisResult } from "../components/MatchResult";
 import { Player } from "../types"; 
 import { UserMenu } from "@/components/UserMenu"; 
-import Logo from "../components/Logo";
+import Logo from "../components/Logo"; // <-- IMPORTAR A LOGO
 
 const Index = () => {
   const { loading } = useAuth(); 
@@ -19,7 +18,6 @@ const Index = () => {
   const [isDataLoaded, setIsDataLoaded] = useState(false); 
 
   useEffect(() => {
-    // ... (seu useEffect do Papa.parse)
     const filePath = '/atp_ratings_current.csv'; 
     Papa.parse<Player>(filePath, {
       download: true,
@@ -39,8 +37,7 @@ const Index = () => {
     });
   }, []); 
 
-  // --- Funções de Cálculo (calculateEloProbs, calculateEV, getRecommendation) ---
-  // ... (cole suas funções de cálculo aqui)
+  // --- Funções de Cálculo (Omitidas para brevidade, mantenha as suas) ---
   const calculateEloProbs = (elo1: number, elo2: number) => {
     const eloDiff = elo1 - elo2;
     const prob1 = 1 / (1 + Math.pow(10, -eloDiff / 400));
@@ -66,10 +63,7 @@ const Index = () => {
       return `${betterPlayer} apresenta melhor EV (${betterEV.toFixed(2)}%), mas está abaixo do limiar ideal para uma aposta de alto valor. Considere com cautela.`;
     }
   };
-
-  // --- Função handleSimulate ---
   const handleSimulate = async (data: SimulationData) => {
-    // ... (sua função handleSimulate completa)
     setIsLoading(true);
     const findElo = (playerName: string): number | null => {
       const normalizedName = playerName.trim().toLowerCase();
@@ -111,6 +105,7 @@ const Index = () => {
     toast.success("Análise concluída!");
     setIsLoading(false);
   };
+  // --- Fim das funções ---
 
   const handleBack = () => {
     setResult(null);
@@ -126,17 +121,19 @@ const Index = () => {
   }
 
   return (
-    <div className="relative min-h-screen bg-gradient-result">
+    // CORRIGIDO: Removido 'bg-gradient-result' e adicionado 'relative'
+    <div className="relative min-h-screen">
       
       <div className="fixed top-4 right-4 z-50"> 
           <UserMenu />
       </div>
 
+      {/* Adicionado um padding-top para o menu fixo não sobrepor */}
       <div className="container max-w-2xl mx-auto px-4 py-8 md:py-12 pt-20"> 
         
-        {/* --- 2. ADICIONAR A LOGO AQUI --- */}
-        <Logo className="w-20 h-20 mb-6" />
-
+        {/* Logo adicionada ao topo da página principal */}
+        <Logo className="w-20 h-20 mb-6 mx-auto" /> 
+        
         {!result ? (
           <MatchSimulator 
             onSimulate={handleSimulate} 
@@ -149,8 +146,8 @@ const Index = () => {
         )}
       </div>
 
-      {/* Decorative elements */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+      {/* Os elementos decorativos que você tinha (mantidos) */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden -z-10">
         <div className="absolute top-20 left-10 w-72 h-72 bg-primary/5 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/5 rounded-full blur-3xl"></div>
       </div>

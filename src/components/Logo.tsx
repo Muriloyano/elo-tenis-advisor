@@ -1,34 +1,19 @@
-// src/components/Logo.tsx
-import Image from 'logo.jpeg'; // Se você estiver usando Next.js, caso contrário use <img>
-import React from 'react';
+import { cn } from "@/lib/utils";
 
 interface LogoProps {
-  width?: number; // Largura opcional para flexibilidade
-  height?: number; // Altura opcional
-  className?: string; // Classes adicionais para estilização
+  className?: string;
 }
 
-const Logo: React.FC<LogoProps> = ({ width = 80, height = 80, className }) => {
+export const Logo = ({ className }: LogoProps) => {
   return (
-    <div className={`flex items-center justify-center ${className}`}>
-      {/* Se estiver usando Next.js, use o componente Image */}
-      {/* <Image 
-        src="/path/to/your/logo.png" // CUIDADO: Este caminho é importante!
-        alt="ELO Tennis Advisor Logo"
-        width={width}
-        height={height}
-        priority 
-      /> */}
-
-      {/* Se não estiver usando Next.js, use a tag <img> */}
-      <img 
-        src="/elo-tennis-logo.png" // CUIDADO: Este caminho é importante!
-        alt="ELO Tennis Advisor Logo"
-        width={width}
-        height={height}
-      />
-    </div>
+    <img 
+      src="./logo.jpeg" // Caminho para a imagem na pasta 'public'
+      alt="ELO Tennis Advisor Logo" 
+      // CORRIGIDO: Removido 'rounded-full' e 'mx-auto' (controlamos no componente pai)
+      // Adicionado 'rounded-lg' para suavizar as bordas
+      className={cn("w-24 h-24 rounded-lg", className)} 
+    />
   );
-};
+}
 
 export default Logo;

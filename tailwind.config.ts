@@ -13,8 +13,6 @@ export default {
       },
     },
     extend: {
-      // Este arquivo já está configurado para ler as variáveis CSS (var(--...))
-      // Nenhuma alteração é necessária aqui. A MUDANÇA É NO INDEX.CSS
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -24,7 +22,7 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-          glow: "hsl(var(--primary-glow))",
+          // 'glow' removido, usaremos o 'ring' padrão
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -56,32 +54,15 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      backgroundImage: {
-        "gradient-primary": "var(--gradient-primary)",
-        "gradient-card": "var(--gradient-card)",
-        "gradient-result": "var(--gradient-result)",
-      },
-      boxShadow: {
-        glow: "var(--shadow-glow)",
-        card: "var(--shadow-card)",
-        elevation: "var(--shadow-elevation)",
-      },
+      // REMOVIDO: backgroundImage, boxShadow (vamos usar os padrões)
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
         },
         "fade-in": {
           "0%": { opacity: "0", transform: "translateY(10px)" },
@@ -102,3 +83,4 @@ export default {
   },
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;
+

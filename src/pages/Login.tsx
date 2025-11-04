@@ -1,13 +1,12 @@
-// src/pages/Login.tsx
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card"; // Importando partes do Card
 import { supabase } from "../lib/supabaseClient";
 import { toast } from "sonner";
 import { useNavigate, Link } from "react-router-dom";
-import Logo from "../components/Logo"; // <-- Esta importação agora funciona
+import Logo from "../components/Logo"; 
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -34,16 +33,16 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-result flex items-center justify-center">
-      <Card className="w-full max-w-md bg-gradient-card border-border/50 shadow-card">
-        <form onSubmit={handleLogin} className="p-6 space-y-6">
-          
-          <Logo className="w-20 h-20 mb-4" /> 
-          
-          <div className="text-center space-y-2">
-            <h1 className="text-3xl font-bold text-gradient">Login</h1>
-          </div>
-          <div className="space-y-4">
+    // CORRIGIDO: Removido 'bg-gradient-result'. O 'bg-background' do index.css cuida disso.
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <Card className="w-full max-w-md">
+        <form onSubmit={handleLogin}>
+          <CardHeader className="items-center text-center">
+            {/* Logo centralizada dentro do CardHeader */}
+            <Logo className="w-20 h-20 mb-4" /> 
+            <CardTitle className="text-3xl font-bold">Login</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -66,16 +65,20 @@ const Login = () => {
                 required
               />
             </div>
-          </div>
-          <Button type="submit" disabled={isLoading} className="w-full">
-            {isLoading ? "Entrando..." : "Entrar"}
-          </Button>
-          <div className="text-center text-sm text-muted-foreground">
-            Não tem uma conta?{" "}
-            <Link to="/cadastro" className="text-primary hover:underline">
-              Cadastre-se
-            </Link>
-          </div>
+          </CardContent>
+          <CardFooter className="flex flex-col gap-4">
+            {/* O botão primário agora será verde-limão */}
+            <Button type="submit" disabled={isLoading} className="w-full">
+              {isLoading ? "Entrando..." : "Entrar"}
+            </Button>
+            <div className="text-center text-sm text-muted-foreground">
+              Não tem uma conta?{" "}
+              {/* O link primário agora será verde-limão */}
+              <Link to="/cadastro" className="font-medium text-primary hover:underline">
+                Cadastre-se
+              </Link>
+            </div>
+          </CardFooter>
         </form>
       </Card>
     </div>
