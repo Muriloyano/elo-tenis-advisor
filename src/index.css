@@ -4,22 +4,28 @@
  
 @layer base {
   :root {
-    /* --- SUA MUDANÇA APLICADA --- */
-    /* Fundo principal da página (Azul super-escuro, 20% de luz) */
-    --background: 212 45% 20%; 
-    /* Texto principal (Branco/Gelo, 93% de luz) - OBRIGATÓRIO PARA O FUNDO ESCURO */
-    --foreground: 215 28% 93%;
+    /* --- CORES INVERTIDAS (CONFORME SOLICITADO) --- */
+    
+    /* Fundo principal da página (Azul Escuro, 31% de luz) */
+    --background: 212 45% 31%; 
+    
+    /* Cor dos Cards (Azul Super-Escuro, 20% de luz) */
+    --card: 212 45% 20%; 
+
     /* --- FIM DA MUDANÇA --- */
 
-    /* Card (Azul escuro, 31% de luz) */
-    --card: 212 45% 31%; 
+
+    /* Cor do texto principal (Branco/Gelo, 93% de luz) */
+    --foreground: 215 28% 93%;
+    /* Cor do texto DENTRO dos cards (Branco/Gelo) */
     --card-foreground: 215 28% 93%;
  
     --popover: 212 45% 28%;
     --popover-foreground: 215 28% 93%;
  
-    /* Primária (Verde-Limão) */
+    /* Cor PRIMÁRIA (Verde-Limão) */
     --primary: 65 68% 56%; 
+    /* Cor do texto nos botões (Azul escuro para contraste) */
     --primary-foreground: 212 45% 20%;
  
     --secondary: 212 45% 40%;
@@ -35,7 +41,7 @@
     --destructive-foreground: 0 0% 98%;
 
     --border: 212 45% 40%;
-    /* Input (Azul escuro, 25% de luz) */
+    /* Fundo do Input (Azul escuro, 25% de luz) */
     --input: 212 45% 25%;  
     --ring: 65 68% 56%;
  
@@ -43,10 +49,10 @@
   }
 
   .dark {
-    /* ... (as mesmas variáveis) ... */
-    --background: 212 45% 20%; 
+    /* (Copiando as mesmas mudanças para o .dark) */
+    --background: 212 45% 31%; 
+    --card: 212 45% 20%; 
     --foreground: 215 28% 93%;
-    --card: 212 45% 31%; 
     --card-foreground: 215 28% 93%;
     --popover: 212 45% 28%;
     --popover-foreground: 215 28% 93%;
@@ -71,7 +77,7 @@
     @apply border-border;
   }
 
-  /* Correção do Vercel */
+  /* Correção do Vercel (Mantida) */
   html, body {
     @apply bg-background !important; 
     @apply text-foreground;
