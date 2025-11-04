@@ -1,10 +1,9 @@
 // src/components/PlayerCombobox.tsx
-"use client"
 
-import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import * as React from 'react';
+import { Player } from "../types"; // Importamos o tipo Player
+import { ChevronsUpDown, Check } from "lucide-react";
+
 import {
   Command,
   CommandEmpty,
@@ -12,30 +11,39 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
+
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Player } from "../types/index";
+} from "@/components/ui/popover";
+
+import { Button } from "@/components/ui/button"; 
+import { cn } from "@/lib/utils"; // Ferramenta para juntar classes Tailwind
 
 interface PlayerComboboxProps {
-  players: Player[]; // A lista de todos os jogadores
-  value: string;     // O jogador selecionado (o nome)
-  onValueChange: (value: string) => void; // A função para mudar o jogador
-  disabled?: boolean; // Para desabilitar enquanto o CSV carrega
+  players: Player[];
+  value: string; // Valor selecionado
+  onValueChange: (value: string) => void; 
+  disabled: boolean;
 }
 
 export function PlayerCombobox({ players, value, onValueChange, disabled }: PlayerComboboxProps) {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
 
-  // Encontra o nome completo para exibir no botão
+  // CORRIGIDO: Agora usa player.player, que é o nome completo
   const getDisplayName = (val: string) => {
-    // Encontra o jogador pelo nome completo
-    const player = players.find(p => `${p.name_first} ${p.name_last}`.toLowerCase() === val.toLowerCase());
-    return player ? `${player.name_first} ${player.name_last}` : "Selecione o jogador...";
-  }
+    const player = players.find(p => 
+      p.player && p.player.toLowerCase() === val.toLowerCase()
+    );
+    return player ? player.player : "Selecione o jogador...";
+  };
+
+  const handleSelect = (currentValue: string) => {
+    onValueChange(currentValue === value ? "" : currentValue);
+    setOpen(false);
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -44,50 +52,45 @@ export function PlayerCombobox({ players, value, onValueChange, disabled }: Play
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between bg-input border-border/50 text-muted-foreground focus:border-primary transition-colors"
+          className="w-full justify-between"
           disabled={disabled}
         >
+          {/* CORRIGIDO: Exibe o nome completo usando a função corrigida */}
           {getDisplayName(value)}
+          
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      {/* O PopoverContent precisa ter a mesma largura do botão que o abriu */}
-      <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+      
+      <PopoverContent className="w-[300px] p-0" align="start">
         <Command>
-          <CommandInput placeholder="Buscar jogador (ex: Sinner...)" />
+          <CommandInput placeholder="Buscar jogador..." />
           <CommandList>
             <CommandEmpty>Nenhum jogador encontrado.</CommandEmpty>
             <CommandGroup>
-              {players.map((player) => {
-                // Criamos o nome completo para cada item
-                const fullName = `${player.name_first} ${player.name_last}`
-                return (
-                  <CommandItem
-                    key={player.player_id}
-                    value={fullName} // O valor de busca é o nome completo
-                    onSelect={(currentValue) => {
-                      // Quando selecionado:
-                      // 1. Atualiza o 'state' do pai (setPlayer1 ou setPlayer2)
-                      onValueChange(fullName)
-                      // 2. Fecha o popover
-                      setOpen(false)
-                    }}
-                  >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        // Mostra o "check" se este for o jogador selecionado
-                        value.toLowerCase() === fullName.toLowerCase() ? "opacity-100" : "opacity-0"
-                      )}
-                    />
-                    {fullName}
-                  </CommandItem>
-                )
-              })}
+              {players.map((player) => (
+                <CommandItem
+                  key={player.rank}
+                  // O valor que é salvo no estado é o nome completo (player.player)
+                  onSelect={() => handleSelect(player.player)} 
+                  className="cursor-pointer"
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      value === player.player ? "opacity-100" : "opacity-0"
+                    )}
+                  />
+                  {/* CORRIGIDO: Exibe apenas o player.player */}
+                  <span className="truncate">
+                    {player.player} (ELO: {player.elo})
+                  </span>
+                </CommandItem>
+              ))}
             </CommandGroup>
           </CommandList>
         </Command>
       </PopoverContent>
     </Popover>
-  )
+  );
 }
