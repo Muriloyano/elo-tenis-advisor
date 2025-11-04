@@ -22,7 +22,6 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-          // Removido: glow
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -54,34 +53,15 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      // --- SEÇÃO REMOVIDA ---
-      // backgroundImage: {
-      //   "gradient-primary": "var(--gradient-primary)",
-      //   "gradient-card": "var(--gradient-card)",
-      //   "gradient-result": "var(--gradient-result)",
-      // },
-      // boxShadow: {
-      //   glow: "var(--shadow-glow)",
-      //   card: "var(--shadow-card)",
-      //   elevation: "var(--shadow-elevation)",
-      // },
-      // --- FIM DA SEÇÃO REMOVIDA ---
+      // Gradientes e sombras removidos
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
         },
         "fade-in": {
           "0%": { opacity: "0", transform: "translateY(10px)" },

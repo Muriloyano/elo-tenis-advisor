@@ -9,7 +9,7 @@ import { useAuth } from "../context/AuthContext";
 import { MatchSimulator, SimulationData } from "../components/MatchSimulator";
 import { MatchResult, AnalysisResult } from "../components/MatchResult";
 import { Player } from "../types"; 
-import { UserMenu } from "@/components/UserMenu"; // Assumindo que UserMenu está em src/components/
+import { UserMenu } from "@/components/UserMenu"; 
 // --- FIM DA CORREÇÃO ---
 import Logo from "../components/Logo"; // <-- Importação da Logo (default)
 
