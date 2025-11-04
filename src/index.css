@@ -1,92 +1,73 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Este é o arquivo principal para o tema.
-  Nós definimos suas cores aqui.
-
-  Cores:
-  Azul: #2a4f73 -> HSL: 212 45% 31%
-  Verde-Limão: #d8e040 -> HSL: 65 68% 56%
-*/
-
+ 
 @layer base {
+  /* Modo Claro (Padrão)
+    Azul Escuro (Cards): #2a4f73 -> HSL 212 45% 31%
+    Verde-Limão (Acento): #d8e040 -> HSL 65 68% 56%
+    Azul Fundo (Página): #eef2f6 -> HSL 213 33% 95% (Um azul bem claro, "gelo")
+  */
   :root {
-    /* MANTENHA AS CORES DE FUNDO PADRÃO (BRANCO/PRETO) */
-    --background: 0 0% 100%;
-    --foreground: 224 71.4% 4.1%;
+    /* Fundo principal da página (Azul "Gelo") */
+    --background: 213 33% 95%;
+    /* Cor do texto principal (Azul bem escuro) */
+    --foreground: 212 45% 20%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
+    /* Cor dos Cards (Login, Cadastro, Simulador) */
+    --card: 212 45% 31%; /* Seu azul escuro #2a4f73 */
+    /* Cor do texto DENTRO dos cards (Branco/Gelo) */
+    --card-foreground: 215 28% 93%;
  
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
+    --popover: 212 45% 28%; /* Um pouco mais escuro que o card */
+    --popover-foreground: 215 28% 93%;
  
-    /* --- SUAS NOVAS CORES APLICADAS --- */
-    --primary: 212 45% 31%;           /* Seu azul #2a4f73 */
-    --primary-foreground: 65 68% 56%; /* Seu verde-limão #d8e040 (para texto sobre o azul) */
+    /* Cor PRIMÁRIA (Botões, Links) */
+    --primary: 65 68% 56%; /* Seu verde-limão #d8e040 */
+    /* Cor do texto em cima dos botões primários (Azul escuro para contraste) */
+    --primary-foreground: 212 45% 20%;
  
-    --secondary: 65 68% 56%;         /* Seu verde-limão #d8e040 */
-    --secondary-foreground: 212 45% 31%; /* Seu azul #2a4f73 (para texto sobre o verde-limão) */
-    /* --- FIM DAS NOVAS CORES --- */
-
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
+    /* Cor SECUNDÁRIA (Botões "fantasma", etc.) */
+    --secondary: 212 45% 40%; /* Azul médio */
+    --secondary-foreground: 65 68% 56%; /* Verde-limão */
  
-    --accent: 220 14.3% 95.9%;
-    --accent-foreground: 220 13% 9.1%;
+    --muted: 212 45% 35%; /* Mudo (dentro do card) */
+    --muted-foreground: 215 20% 65%; /* Texto mudo (cinza claro) */
+ 
+    --accent: 212 45% 35%;
+    --accent-foreground: 215 28% 93%;
  
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 224 71.4% 4.1%;
+    --border: 212 45% 40%; /* Borda azul um pouco mais clara */
+    --input: 212 45% 25%;  /* Fundo do Input (azul escuro) */
+    --ring: 65 68% 56%;   /* Anel de foco verde-limão */
  
     --radius: 0.5rem;
-
-    /* --- GRADIENTES E SOMBRAS CUSTOMIZADAS (Usando suas cores) --- */
-    --gradient-primary: linear-gradient(to right, #d8e040, #a7b031); /* Verde-limão para verde-limão escuro */
-    --gradient-card: radial-gradient(circle, #2f5a85, #2a4f73); /* Azul para azul mais escuro */
-    --gradient-result: radial-gradient(ellipse at top, #2a4f73, #1f3a54); /* Fundo da página */
-
-    /* O 'glow' (brilho) do seu config, agora usando o verde-limão */
-    --primary-glow: 0 0 20px 0px #d8e040;
-    --shadow-glow: 0 0 15px 0px rgba(216, 224, 64, 0.5); 
-    --shadow-card: 0 10px 30px -10px rgba(42, 79, 115, 0.2);
-    --shadow-elevation: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
- 
+
+  /* O modo escuro (dark) usará o mesmo tema */
   .dark {
-    /* MODO ESCURO (Usando seu azul como fundo principal) */
-    --background: 212 45% 31%; /* Seu azul #2a4f73 */
-    --foreground: 0 0% 98%;     /* Texto branco */
-
-    --card: 212 40% 35%; /* Um azul um pouco mais claro para os cards */
-    --card-foreground: 0 0% 98%;
- 
-    --popover: 212 45% 31%;
-    --popover-foreground: 0 0% 98%;
- 
-    /* Cores primárias e secundárias podem ser as mesmas ou invertidas */
-    --primary: 65 68% 56%;           /* Verde-limão vira primário */
-    --primary-foreground: 212 45% 31%; /* Azul vira texto */
- 
-    --secondary: 212 45% 31%;         /* Azul vira secundário */
-    --secondary-foreground: 65 68% 56%; /* Verde-limão vira texto */
-
-    --muted: 212 40% 35%;
-    --muted-foreground: 215 20.2% 65.1%;
- 
-    --accent: 212 40% 35%;
-    --accent-foreground: 0 0% 98%;
- 
-    --destructive: 0 62.8% 30.6%;
+    --background: 213 33% 95%;
+    --foreground: 212 45% 20%;
+    --card: 212 45% 31%; 
+    --card-foreground: 215 28% 93%;
+    --popover: 212 45% 28%;
+    --popover-foreground: 215 28% 93%;
+    --primary: 65 68% 56%;
+    --primary-foreground: 212 45% 20%;
+    --secondary: 212 45% 40%;
+    --secondary-foreground: 65 68% 56%;
+    --muted: 212 45% 35%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 212 45% 35%;
+    --accent-foreground: 215 28% 93%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-
-    --border: 212 40% 40%;
-    --input: 212 40% 40%;
-    --ring: 65 68% 56%; /* Verde-limão para o anel de foco */
+    --border: 212 45% 40%;
+    --input: 212 45% 25%;
+    --ring: 65 68% 56%;
   }
 }
  
@@ -95,6 +76,7 @@
     @apply border-border;
   }
   body {
+    /* O body agora usa 'bg-background' (azul claro) e 'text-foreground' (azul escuro) */
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }

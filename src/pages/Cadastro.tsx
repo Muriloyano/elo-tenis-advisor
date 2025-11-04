@@ -1,3 +1,4 @@
+// src/pages/Cadastro.tsx
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,7 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/componen
 import { supabase } from "../lib/supabaseClient";
 import { toast } from "sonner";
 import { useNavigate, Link } from "react-router-dom";
-import Logo from "../components/Logo";
+import Logo from "../components/Logo"; // <-- Importação da Logo (default)
 
 const SECRET_INVITE_TOKEN = import.meta.env.VITE_INVITE_TOKEN;
 
@@ -66,8 +67,10 @@ const Cadastro = () => {
   };
 
   return (
-    // CORRIGIDO: Removido 'bg-gradient-result'
+    // Fundo da página (azul claro)
+    // Removido 'bg-gradient-result'
     <div className="min-h-screen flex items-center justify-center py-8 px-4">
+      {/* Card (azul escuro) */}
       <Card className="w-full max-w-lg">
         <form onSubmit={handleCadastro}>
           <CardHeader className="items-center text-center">
@@ -109,6 +112,7 @@ const Cadastro = () => {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
+            {/* Botão (verde-limão) */}
             <Button type="submit" disabled={isLoading} className="w-full">
               {isLoading ? "Criando..." : "Cadastrar"}
             </Button>
