@@ -1,13 +1,11 @@
-// src/components/MatchSimulator.tsx
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input"; // Ainda usamos para as Odds
+import { Input } from "@/components/ui/input"; 
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { Player } from "../types"; // <-- Certifique-se que este caminho está correto
+import { Player } from "../types"; 
 import { PlayerCombobox } from "./PlayerCombobox"; 
 
 interface MatchSimulatorProps {
@@ -17,19 +15,12 @@ interface MatchSimulatorProps {
   allPlayers: Player[]; 
 }
 
-// =================================================================
-//
-// AQUI ESTÁ A PARTE QUE PROVAVELMENTE ESTAVA EM FALTA
-// O 'export' faz com que o 'Index.tsx' a consiga importar.
-//
 export interface SimulationData {
   player1: string;
   player2: string;
   odds1: number;
   odds2: number;
 }
-//
-// =================================================================
 
 export const MatchSimulator = ({ 
   onSimulate, 
@@ -68,10 +59,18 @@ export const MatchSimulator = ({
   };
 
   return (
-    <Card className="bg-gradient-card border-border/50 shadow-card">
+    // --- CORREÇÃO AQUI ---
+    // Removidas as classes "bg-gradient-card" e "shadow-card".
+    // Agora, o <Card> usará o 'bg-card' (azul escuro) padrão 
+    // do seu index.css, assim como a página de Login.
+    <Card className="border-border/50"> 
       <form onSubmit={handleSubmit} className="p-6 space-y-6">
         <div className="text-center space-y-2 mb-8">
-          <h1 className="text-3xl font-bold text-gradient">Simular Confronto</h1>
+          {/* As classes 'text-gradient' e 'text-primary-foreground'
+              provavelmente também não estão definidas. 
+              Mudei para o padrão 'text-card-foreground' (branco/gelo).
+          */}
+          <h1 className="text-3xl font-bold text-card-foreground">Simular Confronto</h1>
           <p className="text-muted-foreground text-sm">
             Análise baseada em Elo Rating do Tennis Abstract
           </p>
@@ -144,7 +143,9 @@ export const MatchSimulator = ({
         <Button
           type="submit"
           disabled={isLoading || isDataLoading}
-          className="w-full bg-gradient-primary hover:shadow-glow transition-all duration-300 text-primary-foreground font-semibold py-6 text-lg"
+          // A classe 'bg-gradient-primary' também não existe no seu CSS.
+          // Mudei para 'bg-primary' (verde-limão) que já funciona.
+          className="w-full bg-primary hover:bg-primary/90 transition-all duration-300 text-primary-foreground font-semibold py-6 text-lg"
         >
           {isDataLoading ? (
             <>
