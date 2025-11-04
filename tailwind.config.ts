@@ -13,6 +13,8 @@ export default {
       },
     },
     extend: {
+      // Este arquivo já está configurado para ler as variáveis CSS (var(--...))
+      // Nenhuma alteração é necessária aqui. A MUDANÇA É NO INDEX.CSS
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

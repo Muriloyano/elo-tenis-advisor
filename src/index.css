@@ -2,149 +2,100 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Tennis Betting Analysis App - Design System 
-   Colors inspired by tennis: court green, professional dark blue/black, tennis ball white
-   All colors MUST be HSL.
+/* Este é o arquivo principal para o tema.
+  Nós definimos suas cores aqui.
+
+  Cores:
+  Azul: #2a4f73 -> HSL: 212 45% 31%
+  Verde-Limão: #d8e040 -> HSL: 65 68% 56%
 */
 
 @layer base {
   :root {
-    /* Core colors - Tennis theme */
-    --background: 220 20% 6%;
-    --foreground: 0 0% 98%;
-
-    --card: 220 18% 10%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 220 18% 12%;
-    --popover-foreground: 0 0% 98%;
-
-    /* Primary - Tennis Court Green */
-    --primary: 142 76% 36%;
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 142 76% 50%;
-
-    /* Secondary - Professional Blue */
-    --secondary: 217 91% 60%;
-    --secondary-foreground: 0 0% 100%;
-
-    /* Muted tones */
-    --muted: 220 15% 20%;
-    --muted-foreground: 220 10% 60%;
-
-    /* Accent - Highlight yellow/green */
-    --accent: 142 76% 45%;
-    --accent-foreground: 220 20% 6%;
-
-    /* Destructive/Warning */
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 220 15% 20%;
-    --input: 220 15% 18%;
-    --ring: 142 76% 36%;
-
-    --radius: 0.75rem;
-
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 76% 50%));
-    --gradient-card: linear-gradient(145deg, hsl(220 18% 10%), hsl(220 18% 14%));
-    --gradient-result: linear-gradient(180deg, hsl(220 20% 6%), hsl(220 18% 10%));
-
-    /* Shadows */
-    --shadow-glow: 0 0 30px hsl(142 76% 36% / 0.3);
-    --shadow-card: 0 8px 32px hsl(0 0% 0% / 0.4);
-    --shadow-elevation: 0 4px 16px hsl(0 0% 0% / 0.3);
-
-    /* Animations */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .light {
-    --background: 0 0% 98%;
-    --foreground: 220 20% 10%;
+    /* MANTENHA AS CORES DE FUNDO PADRÃO (BRANCO/PRETO) */
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 20% 10%;
-
+    --card-foreground: 224 71.4% 4.1%;
+ 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 10%;
+    --popover-foreground: 224 71.4% 4.1%;
+ 
+    /* --- SUAS NOVAS CORES APLICADAS --- */
+    --primary: 212 45% 31%;           /* Seu azul #2a4f73 */
+    --primary-foreground: 65 68% 56%; /* Seu verde-limão #d8e040 (para texto sobre o azul) */
+ 
+    --secondary: 65 68% 56%;         /* Seu verde-limão #d8e040 */
+    --secondary-foreground: 212 45% 31%; /* Seu azul #2a4f73 (para texto sobre o verde-limão) */
+    /* --- FIM DAS NOVAS CORES --- */
 
-    --primary: 142 76% 36%;
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 142 76% 30%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+ 
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220 13% 9.1%;
+ 
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
 
-    --secondary: 217 91% 60%;
-    --secondary-foreground: 0 0% 100%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 224 71.4% 4.1%;
+ 
+    --radius: 0.5rem;
 
-    --muted: 220 15% 95%;
-    --muted-foreground: 220 10% 40%;
+    /* --- GRADIENTES E SOMBRAS CUSTOMIZADAS (Usando suas cores) --- */
+    --gradient-primary: linear-gradient(to right, #d8e040, #a7b031); /* Verde-limão para verde-limão escuro */
+    --gradient-card: radial-gradient(circle, #2f5a85, #2a4f73); /* Azul para azul mais escuro */
+    --gradient-result: radial-gradient(ellipse at top, #2a4f73, #1f3a54); /* Fundo da página */
 
-    --accent: 142 76% 45%;
-    --accent-foreground: 0 0% 100%;
+    /* O 'glow' (brilho) do seu config, agora usando o verde-limão */
+    --primary-glow: 0 0 20px 0px #d8e040;
+    --shadow-glow: 0 0 15px 0px rgba(216, 224, 64, 0.5); 
+    --shadow-card: 0 10px 30px -10px rgba(42, 79, 115, 0.2);
+    --shadow-elevation: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+ 
+  .dark {
+    /* MODO ESCURO (Usando seu azul como fundo principal) */
+    --background: 212 45% 31%; /* Seu azul #2a4f73 */
+    --foreground: 0 0% 98%;     /* Texto branco */
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
+    --card: 212 40% 35%; /* Um azul um pouco mais claro para os cards */
+    --card-foreground: 0 0% 98%;
+ 
+    --popover: 212 45% 31%;
+    --popover-foreground: 0 0% 98%;
+ 
+    /* Cores primárias e secundárias podem ser as mesmas ou invertidas */
+    --primary: 65 68% 56%;           /* Verde-limão vira primário */
+    --primary-foreground: 212 45% 31%; /* Azul vira texto */
+ 
+    --secondary: 212 45% 31%;         /* Azul vira secundário */
+    --secondary-foreground: 65 68% 56%; /* Verde-limão vira texto */
 
-    --border: 220 15% 90%;
-    --input: 220 15% 95%;
-    --ring: 142 76% 36%;
+    --muted: 212 40% 35%;
+    --muted-foreground: 215 20.2% 65.1%;
+ 
+    --accent: 212 40% 35%;
+    --accent-foreground: 0 0% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
 
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(220 15% 98%));
-    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.08);
+    --border: 212 40% 40%;
+    --input: 212 40% 40%;
+    --ring: 65 68% 56%; /* Verde-limão para o anel de foco */
   }
 }
-
+ 
 @layer base {
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-background text-foreground antialiased;
-    font-feature-settings: "cv11", "ss01";
-  }
-
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
-  }
-
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-background;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-muted rounded-full;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-primary/50;
-  }
-}
-
-/* Utility classes */
-@layer utilities {
-  .animate-glow {
-    animation: glow 2s ease-in-out infinite alternate;
-  }
-
-  @keyframes glow {
-    from {
-      box-shadow: 0 0 10px hsl(var(--primary) / 0.2);
-    }
-    to {
-      box-shadow: 0 0 20px hsl(var(--primary) / 0.4);
-    }
-  }
-
-  .text-gradient {
-    @apply bg-clip-text text-transparent;
-    background-image: var(--gradient-primary);
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 }

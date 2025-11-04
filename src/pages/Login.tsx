@@ -6,7 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { supabase } from "../lib/supabaseClient";
 import { toast } from "sonner";
-import { useNavigate, Link } from "react-router-dom"; // Link para "Cadastre-se"
+import { useNavigate, Link } from "react-router-dom";
+import Logo from "../components/Logo"; // <-- Esta importação agora funciona
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -27,7 +28,7 @@ const Login = () => {
       toast.error(error.message);
     } else {
       toast.success("Login realizado com sucesso!");
-      navigate("/"); // Redireciona para a página principal (calculadora)
+      navigate("/"); 
     }
     setIsLoading(false);
   };
@@ -36,7 +37,10 @@ const Login = () => {
     <div className="min-h-screen bg-gradient-result flex items-center justify-center">
       <Card className="w-full max-w-md bg-gradient-card border-border/50 shadow-card">
         <form onSubmit={handleLogin} className="p-6 space-y-6">
-          <div className="text-center space-y-2 mb-8">
+          
+          <Logo className="w-20 h-20 mb-4" /> 
+          
+          <div className="text-center space-y-2">
             <h1 className="text-3xl font-bold text-gradient">Login</h1>
           </div>
           <div className="space-y-4">
