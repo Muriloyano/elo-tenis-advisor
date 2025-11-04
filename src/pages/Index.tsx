@@ -1,29 +1,31 @@
 // src/pages/Index.tsx
-
 import { useState, useEffect } from "react";
 import Papa from "papaparse";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button"; // Mantido, mas não é usado para o Logout
+import { Loader2 } from "lucide-react"; 
+import { Button } from "@/components/ui/button"; 
 import { supabase } from "../lib/supabaseClient"; 
+import { useAuth } from "../context/AuthContext";
 
-// --- CORREÇÃO DE IMPORTS ---
+// --- CORREÇÃO DE IMPORTS (Caminhos relativos) ---
 import { MatchSimulator, SimulationData } from "../components/MatchSimulator";
 import { MatchResult, AnalysisResult } from "../components/MatchResult";
-import { Player } from "../types"; 
-import { UserMenu } from "@/components/UserMenu"; // <-- IMPORTADO O NOVO COMPONENTE
+import { Player } from "../types"; // Lembre-se: types/index.ts deve ter { rank, player, elo }
+import { UserMenu } from "@/components/UserMenu"; 
 // --- FIM DA CORREÇÃO ---
 
 
 const Index = () => {
-  const [result, setResult] = useState<AnalysisResult | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const { loading } = useAuth(); // Apenas 'loading' é necessário aqui
 
+  const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [isLoading, setIsLoading] = useState(false); 
+  
   const [allPlayers, setAllPlayers] = useState<Player[]>([]);
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [isDataLoaded, setIsDataLoaded] = useState(false); 
 
   // Este useEffect roda UMA VEZ para carregar o CSV
   useEffect(() => {
-    // Certifique-se que o arquivo (com 100 jogadores) está em 'public/'
     const filePath = '/atp_ratings_current.csv'; 
 
     Papa.parse<Player>(filePath, {
@@ -31,21 +33,22 @@ const Index = () => {
       header: true,
       dynamicTyping: true,
       complete: (results) => {
-        const validPlayers = results.data.filter(player => player.ranking_date);
+        // Validação: Garante que o objeto tenha o campo 'player'
+        const validPlayers = results.data.filter(player => player.player && typeof player.player === 'string'); 
         
         setAllPlayers(validPlayers); 
         setIsDataLoaded(true);      
-        console.log("Dados do ranking (CSV) carregados com sucesso!");
-        toast.success("Dados do ranking carregados!");
+        console.log(`Dados do ranking carregados: ${validPlayers.length} jogadores.`);
+        toast.success(`Ranking Top ${validPlayers.length} carregado!`);
       },
       error: (error) => {
         console.error("Erro ao carregar o CSV:", error);
-        toast.error("Falha ao carregar o ranking. Tente atualizar a página.");
+        toast.error("Falha ao carregar o ranking. Verifique o arquivo CSV.");
       }
     });
   }, []); 
 
-  // --- Funções de Cálculo ---
+  // --- Funções de Cálculo (Mantidas) ---
   const calculateEloProbs = (elo1: number, elo2: number) => {
     const eloDiff = elo1 - elo2;
     const prob1 = 1 / (1 + Math.pow(10, -eloDiff / 400));
@@ -78,14 +81,19 @@ const Index = () => {
   const handleSimulate = async (data: SimulationData) => {
     setIsLoading(true);
 
+    // --- CORRIGIDO: FUNÇÃO DE BUSCA COMPLETA E SEGURA ---
     const findElo = (playerName: string): number | null => {
       const normalizedName = playerName.trim().toLowerCase();
-      const player = allPlayers.find(p => {
-        const fullName = `${p.name_first} ${p.name_last}`.toLowerCase();
-        return fullName === normalizedName;
+      
+      const playerFound = allPlayers.find(p => {
+        // Garantimos que 'player' é string e fazemos a comparação
+        return p.player && typeof p.player === 'string' && p.player.toLowerCase() === normalizedName;
       });
-      return player ? player.elo : null; 
+      
+      return playerFound ? playerFound.elo : null; 
     };
+    // --- FIM DA CORREÇÃO ---
+
 
     const elo1 = findElo(data.player1);
     const elo2 = findElo(data.player2);
@@ -127,22 +135,25 @@ const Index = () => {
     setResult(null);
   };
 
-  // --- Função handleLogout removida, agora está no UserMenu.tsx ---
-
+  // Se a autenticação estiver a carregar o estado inicial, mostre um loading
+  if (loading) {
+      return (
+          <div className="min-h-screen flex items-center justify-center">
+              <Loader2 className="h-10 w-10 animate-spin text-primary" />
+              <p className="ml-4 text-muted-foreground">Verificando sessão...</p>
+          </div>
+      );
+  }
 
   return (
     // Agora a div principal tem posicionamento relative
     <div className="relative min-h-screen bg-gradient-result">
       
-      {/* Botão de Logout para testes - REMOVIDO E SUBSTITUÍDO PELO MENU SANDUÍCHE */}
-      
-      {/* NOVO: Menu Sanduíche no canto superior direito */}
+      {/* Menu Sanduíche no canto superior direito */}
       <div className="fixed top-4 right-4 z-50"> 
           <UserMenu />
       </div>
-      {/* FIM NOVO */}
 
-      {/* Ajustei o container para que o conteúdo não fique por baixo do menu fixo */}
       <div className="container max-w-2xl mx-auto px-4 py-8 md:py-12 pt-20"> 
         {!result ? (
           <MatchSimulator 
