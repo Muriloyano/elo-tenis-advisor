@@ -1,6 +1,6 @@
 // src/components/PlayerCombobox.tsx
 
-import * as React from 'react'; // <--- CORREÇÃO DO ERRO DE DIGITAÇÃO AQUI
+import * as React from 'react';
 import { Player } from "../types"; 
 import { ChevronsUpDown, Check } from "lucide-react";
 
@@ -30,7 +30,7 @@ interface PlayerComboboxProps {
 }
 
 export function PlayerCombobox({ players, value, onValueChange, disabled }: PlayerComboboxProps) {
-  const [open, setOpen] = React.useState(false); // <-- Isso agora vai funcionar
+  const [open, setOpen] = React.useState(false);
 
   const getDisplayName = (val: string) => {
     const player = players.find(p => 
@@ -40,6 +40,7 @@ export function PlayerCombobox({ players, value, onValueChange, disabled }: Play
   };
 
   const handleSelect = (currentValue: string) => {
+    // Corrigindo um typo da versão anterior (onValueVChange -> onValueChange)
     onValueChange(currentValue === value ? "" : currentValue);
     setOpen(false);
   };
@@ -47,15 +48,18 @@ export function PlayerCombobox({ players, value, onValueChange, disabled }: Play
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        
-        {/* Aqui está a correção da cor (que já estava certa) */}
         <Button
           role="combobox"
           aria-expanded={open}
           className={cn(
             "flex h-10 w-full items-center justify-between rounded-md border px-3 py-2 text-sm",
-            "bg-input border-border/50", 
-            !value && "text-muted-foreground",
+            "bg-input border-border/50",
+            
+            // --- CORREÇÃO DA COR DO TEXTO AQUI ---
+            // Se tiver um valor, use a cor do card (branco/gelo).
+            // Senão, use a cor de "placeholder" (cinza).
+            value ? "text-card-foreground" : "text-muted-foreground",
+            
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
             "disabled:cursor-not-allowed disabled:opacity-50"
           )}
