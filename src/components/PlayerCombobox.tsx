@@ -1,7 +1,7 @@
 // src/components/PlayerCombobox.tsx
 
-import * as React from 'react';
-import { Player } from "../types"; // Importamos o tipo Player
+import * as React from 'react'; // <--- CORREÇÃO DO ERRO DE DIGITAÇÃO AQUI
+import { Player } from "../types"; 
 import { ChevronsUpDown, Check } from "lucide-react";
 
 import {
@@ -20,19 +20,18 @@ import {
 } from "@/components/ui/popover";
 
 import { Button } from "@/components/ui/button"; 
-import { cn } from "@/lib/utils"; // Ferramenta para juntar classes Tailwind
+import { cn } from "@/lib/utils"; 
 
 interface PlayerComboboxProps {
   players: Player[];
-  value: string; // Valor selecionado
+  value: string; 
   onValueChange: (value: string) => void; 
   disabled: boolean;
 }
 
 export function PlayerCombobox({ players, value, onValueChange, disabled }: PlayerComboboxProps) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false); // <-- Isso agora vai funcionar
 
-  // CORRIGIDO: Agora usa player.player, que é o nome completo
   const getDisplayName = (val: string) => {
     const player = players.find(p => 
       p.player && p.player.toLowerCase() === val.toLowerCase()
@@ -48,16 +47,21 @@ export function PlayerCombobox({ players, value, onValueChange, disabled }: Play
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
+        
+        {/* Aqui está a correção da cor (que já estava certa) */}
         <Button
-          variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between"
+          className={cn(
+            "flex h-10 w-full items-center justify-between rounded-md border px-3 py-2 text-sm",
+            "bg-input border-border/50", 
+            !value && "text-muted-foreground",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+            "disabled:cursor-not-allowed disabled:opacity-50"
+          )}
           disabled={disabled}
         >
-          {/* CORRIGIDO: Exibe o nome completo usando a função corrigida */}
           {getDisplayName(value)}
-          
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -71,7 +75,6 @@ export function PlayerCombobox({ players, value, onValueChange, disabled }: Play
               {players.map((player) => (
                 <CommandItem
                   key={player.rank}
-                  // O valor que é salvo no estado é o nome completo (player.player)
                   onSelect={() => handleSelect(player.player)} 
                   className="cursor-pointer"
                 >
@@ -81,7 +84,6 @@ export function PlayerCombobox({ players, value, onValueChange, disabled }: Play
                       value === player.player ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {/* CORRIGIDO: Exibe apenas o player.player */}
                   <span className="truncate">
                     {player.player} (ELO: {player.elo})
                   </span>

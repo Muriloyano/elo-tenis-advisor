@@ -76,14 +76,10 @@
     @apply border-border;
   }
 
-  /* --- CORREÇÃO APLICADA --- */
-  /* Aplicamos ao 'html' E ao 'body'.
-    Isso é mais forte e garante que o fundo da página 
-    inteira tenha a cor correta, vencendo qualquer 
-    regra de reset que possa estar interferindo.
-  */
+  /* --- CORREÇÃO FINAL PARA O FUNDO DA PÁGINA --- */
   html, body {
-    @apply bg-background text-foreground;
+    @apply bg-background !important; 
+    @apply text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
