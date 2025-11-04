@@ -3,36 +3,30 @@
 @tailwind utilities;
  
 @layer base {
-  /* Modo Claro (Padrão)
-    Azul Escuro (Cards): #2a4f73 -> HSL 212 45% 31%
-    Verde-Limão (Acento): #d8e040 -> HSL 65 68% 56%
-    Azul Fundo (Página): #eef2f6 -> HSL 213 33% 95% (Um azul bem claro, "gelo")
-  */
   :root {
-    /* Fundo principal da página (Azul "Gelo") */
-    --background: 213 33% 95%;
-    /* Cor do texto principal (Azul bem escuro) */
-    --foreground: 212 45% 20%;
+    /* --- SUA MUDANÇA APLICADA --- */
+    /* Fundo principal da página (Azul super-escuro, 20% de luz) */
+    --background: 212 45% 20%; 
+    /* Texto principal (Branco/Gelo, 93% de luz) - OBRIGATÓRIO PARA O FUNDO ESCURO */
+    --foreground: 215 28% 93%;
+    /* --- FIM DA MUDANÇA --- */
 
-    /* Cor dos Cards (Login, Cadastro, Simulador) */
-    --card: 212 45% 31%; /* Seu azul escuro #2a4f73 */
-    /* Cor do texto DENTRO dos cards (Branco/Gelo) */
+    /* Card (Azul escuro, 31% de luz) */
+    --card: 212 45% 31%; 
     --card-foreground: 215 28% 93%;
  
-    --popover: 212 45% 28%; /* Um pouco mais escuro que o card */
+    --popover: 212 45% 28%;
     --popover-foreground: 215 28% 93%;
  
-    /* Cor PRIMÁRIA (Botões, Links) */
-    --primary: 65 68% 56%; /* Seu verde-limão #d8e040 */
-    /* Cor do texto em cima dos botões primários (Azul escuro para contraste) */
+    /* Primária (Verde-Limão) */
+    --primary: 65 68% 56%; 
     --primary-foreground: 212 45% 20%;
  
-    /* Cor SECUNDÁRIA (Botões "fantasma", etc.) */
-    --secondary: 212 45% 40%; /* Azul médio */
-    --secondary-foreground: 65 68% 56%; /* Verde-limão */
+    --secondary: 212 45% 40%;
+    --secondary-foreground: 65 68% 56%;
  
-    --muted: 212 45% 35%; /* Mudo (dentro do card) */
-    --muted-foreground: 215 20% 65%; /* Texto mudo (cinza claro) */
+    --muted: 212 45% 35%;
+    --muted-foreground: 215 20% 65%;
  
     --accent: 212 45% 35%;
     --accent-foreground: 215 28% 93%;
@@ -40,17 +34,18 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 212 45% 40%; /* Borda azul um pouco mais clara */
-    --input: 212 45% 25%;  /* Fundo do Input (azul escuro) */
-    --ring: 65 68% 56%;   /* Anel de foco verde-limão */
+    --border: 212 45% 40%;
+    /* Input (Azul escuro, 25% de luz) */
+    --input: 212 45% 25%;  
+    --ring: 65 68% 56%;
  
     --radius: 0.5rem;
   }
 
-  /* O modo escuro (dark) usará o mesmo tema */
   .dark {
-    --background: 213 33% 95%;
-    --foreground: 212 45% 20%;
+    /* ... (as mesmas variáveis) ... */
+    --background: 212 45% 20%; 
+    --foreground: 215 28% 93%;
     --card: 212 45% 31%; 
     --card-foreground: 215 28% 93%;
     --popover: 212 45% 28%;
@@ -76,7 +71,7 @@
     @apply border-border;
   }
 
-  /* --- CORREÇÃO FINAL PARA O FUNDO DA PÁGINA --- */
+  /* Correção do Vercel */
   html, body {
     @apply bg-background !important; 
     @apply text-foreground;

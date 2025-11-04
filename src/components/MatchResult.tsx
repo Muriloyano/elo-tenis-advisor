@@ -39,11 +39,19 @@ export const MatchResult = ({ result, onBack }: MatchResultProps) => {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <Card className="bg-gradient-card border-border/50 shadow-card overflow-hidden">
+      {/* --- CORREÇÃO AQUI ---
+        Removido "bg-gradient-card" e "shadow-card".
+        Agora ele usará o 'bg-card' (azul escuro) padrão.
+      */}
+      <Card className="border-border/50 overflow-hidden">
         <div className="p-6 space-y-6">
           {/* Header */}
           <div className="text-center space-y-2 pb-4 border-b border-border/50">
-            <h2 className="text-2xl font-bold text-gradient">Resultado da Análise</h2>
+            {/* --- CORREÇÃO AQUI ---
+              Trocado "text-gradient" por "text-card-foreground" 
+              (a cor de texto branca/gelo do seu tema).
+            */}
+            <h2 className="text-2xl font-bold text-card-foreground">Resultado da Análise</h2>
             <p className="text-sm text-muted-foreground">
               {result.player1} vs {result.player2}
             </p>
@@ -69,8 +77,12 @@ export const MatchResult = ({ result, onBack }: MatchResultProps) => {
               Probabilidade de Vitória (by Elo)
             </h3>
             <div className="relative h-12 rounded-lg overflow-hidden bg-muted/30">
+              {/* --- CORREÇÃO AQUI ---
+                Trocado "bg-gradient-primary" por "bg-primary"
+                (o verde-limão sólido do seu tema).
+              */}
               <div
-                className="absolute inset-y-0 left-0 bg-gradient-primary flex items-center justify-start px-4 transition-all duration-500"
+                className="absolute inset-y-0 left-0 bg-primary flex items-center justify-start px-4 transition-all duration-500"
                 style={{ width: `${result.prob1}%` }}
               >
                 <span className="text-sm font-bold text-primary-foreground">
