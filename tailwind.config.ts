@@ -2,7 +2,16 @@ import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
-  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
+  
+  // --- CORREÇÃO AQUI ---
+  // Removemos os caminhos quebrados e usamos um único caminho
+  // que escaneia TUDO dentro da pasta 'src'.
+  // Adicionamos .js e .jsx por segurança.
+  content: [
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  // --- FIM DA CORREÇÃO ---
+
   prefix: "",
   theme: {
     container: {
@@ -53,7 +62,6 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
-      // Gradientes e sombras removidos
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
