@@ -10,60 +10,62 @@ import { useNavigate, Link } from "react-router-dom";
 import Logo from "../components/Logo";
 import "../index.css"
 
-// O SECRET_INVITE_TOKEN foi removido
-
 const Cadastro = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // O inviteToken state foi removido
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleCadastro = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setIsLoading(true); // O loading começa
 
-    // --- LÓGICA DO TOKEN REMOVIDA DAQUI ---
-    // A checagem do inviteToken !== SECRET_INVITE_TOKEN foi removida.
-    // Agora o cadastro é direto.
-
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-    });
-
-    if (authError) {
-      toast.error(authError.message);
-      setIsLoading(false);
-      return;
-    }
-
-    if (!authData.user) {
-      toast.error("Erro ao criar usuário, tente novamente.");
-      setIsLoading(false);
-      return;
-    }
-
-    // A lógica do Perfil continua (isso é ótimo!)
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .insert({ 
-        id: authData.user.id,
-        first_name: firstName,
-        last_name: lastName,
-        birth_date: birthDate,
+    try {
+      // Tentamos criar o usuário
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email: email,
+        password: password,
       });
 
-    if (profileError) {
-      toast.error(`Usuário criado, mas falha ao salvar perfil: ${profileError.message}`);
-    } else {
+      if (authError) {
+        throw authError; // Joga o erro para o 'catch'
+      }
+      if (!authData.user) {
+        throw new Error("Erro ao criar usuário, tente novamente.");
+      }
+
+      // Tentamos criar o perfil
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert({ 
+          id: authData.user.id,
+          first_name: firstName,
+          last_name: lastName,
+          birth_date: birthDate,
+          // A coluna 'tem_assinatura_ativa' vai usar o 'false'
+          // que definimos como padrão no Supabase
+        });
+
+      if (profileError) {
+        throw profileError; 
+      }
+      
+      // Se TUDO deu certo
       toast.success("Cadastro realizado com sucesso!");
       navigate("/login"); 
+
+    } catch (error: any) { // Pegamos QUALQUER erro
+      console.error("Erro no cadastro:", error);
+      toast.error(error.message || "Falha no cadastro. Tente novamente.");
+    
+    } finally { // (A MÁGICA)
+      // Isso roda NÃO IMPORTA O QUE ACONTEÇA
+      // e garante que o "travamento" nunca ocorra.
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   return (
@@ -100,9 +102,6 @@ const Cadastro = () => {
               <Label htmlFor="password">Senha</Label>
               <Input id="password" type="password" placeholder="Mínimo 6 caracteres" value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
-            
-            {/* --- CAMPO DE TOKEN REMOVIDO DAQUI --- */}
-            
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
             <Button type="submit" disabled={isLoading} className="w-full">
