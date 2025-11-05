@@ -7,11 +7,10 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/componen
 import { supabase } from "../lib/supabaseClient";
 import { toast } from "sonner";
 import { useNavigate, Link } from "react-router-dom";
-import Logo from "../components/Logo"; // <-- Importação da Logo (default)
+import Logo from "../components/Logo";
 import "../index.css"
 
-
-const SECRET_INVITE_TOKEN = import.meta.env.VITE_INVITE_TOKEN;
+// O SECRET_INVITE_TOKEN foi removido
 
 const Cadastro = () => {
   const [firstName, setFirstName] = useState("");
@@ -19,7 +18,7 @@ const Cadastro = () => {
   const [birthDate, setBirthDate] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [inviteToken, setInviteToken] = useState("");
+  // O inviteToken state foi removido
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -27,30 +26,28 @@ const Cadastro = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    if (!SECRET_INVITE_TOKEN || SECRET_INVITE_TOKEN === "") {
-      toast.error("Erro de configuração: Token de convite não definido.");
-      setIsLoading(false);
-      return;
-    }
-    if (inviteToken !== SECRET_INVITE_TOKEN) {
-      toast.error("Token de convite inválido.");
-      setIsLoading(false);
-      return; 
-    }
+    // --- LÓGICA DO TOKEN REMOVIDA DAQUI ---
+    // A checagem do inviteToken !== SECRET_INVITE_TOKEN foi removida.
+    // Agora o cadastro é direto.
+
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email: email,
       password: password,
     });
+
     if (authError) {
       toast.error(authError.message);
       setIsLoading(false);
       return;
     }
+
     if (!authData.user) {
       toast.error("Erro ao criar usuário, tente novamente.");
       setIsLoading(false);
       return;
     }
+
+    // A lógica do Perfil continua (isso é ótimo!)
     const { error: profileError } = await supabase
       .from('profiles')
       .insert({ 
@@ -59,6 +56,7 @@ const Cadastro = () => {
         last_name: lastName,
         birth_date: birthDate,
       });
+
     if (profileError) {
       toast.error(`Usuário criado, mas falha ao salvar perfil: ${profileError.message}`);
     } else {
@@ -69,10 +67,7 @@ const Cadastro = () => {
   };
 
   return (
-    // Fundo da página (azul claro)
-    // Removido 'bg-gradient-result'
     <div className="min-h-screen flex items-center justify-center py-8 px-4">
-      {/* Card (azul escuro) */}
       <Card className="w-full max-w-lg">
         <form onSubmit={handleCadastro}>
           <CardHeader className="items-center text-center">
@@ -106,15 +101,10 @@ const Cadastro = () => {
               <Input id="password" type="password" placeholder="Mínimo 6 caracteres" value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
             
-            <hr className="border-border/50" />
-
-            <div className="space-y-2">
-              <Label htmlFor="token">Token de Convite</Label>
-              <Input id="token" type="password" placeholder="Chave de acesso secreta" value={inviteToken} onChange={(e) => setInviteToken(e.target.value)} required />
-            </div>
+            {/* --- CAMPO DE TOKEN REMOVIDO DAQUI --- */}
+            
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
-            {/* Botão (verde-limão) */}
             <Button type="submit" disabled={isLoading} className="w-full">
               {isLoading ? "Criando..." : "Cadastrar"}
             </Button>
