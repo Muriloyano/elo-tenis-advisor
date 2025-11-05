@@ -2,20 +2,18 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ReactNode } from 'react';
-import { Loader2 } from 'lucide-react'; // <-- Para um spinner de loading melhor
+import { Loader2 } from 'lucide-react';
 
 interface ProtectedRouteProps {
   children: ReactNode;
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  // O 'session' do Supabase contém o 'user', 
-  // e o 'user' contém o 'user_metadata'
-  const { session, loading } = useAuth(); 
+  // 1. AGORA PUXAMOS O 'profile' DO NOSSO CONTEXTO ATUALIZADO
+  //    O 'loading' agora espera tanto pela sessão QUANTO pelo perfil
+  const { session, profile, loading } = useAuth(); 
 
   if (loading) {
-    // --- MELHORIA DE UX ---
-    // Troquei o texto por um spinner centralizado
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="h-10 w-10 animate-spin text-primary" />
@@ -25,26 +23,22 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   }
 
   if (!session) {
-    // Usuário não está logado, redireciona para /login
+    // 2. Isso continua igual: sem sessão, vai para o login
     return <Navigate to="/login" replace />;
   }
 
-  // --- 🚨 LÓGICA DO PAYWALL ADICIONADA AQUI 🚨 ---
+  // --- 🚨 LÓGICA DO PAYWALL (PLANO B) 🚨 ---
 
-  // 1. Pegamos o "metadata" do usuário 
-  //    (onde VOCÊ vai adicionar a permissão manualmente)
-  const metadata = session.user.user_metadata;
-
-  // 2. Checamos se a chave "tem_assinatura_ativa" existe e é 'true'
-  //    Usamos '===' para ter certeza.
-  const hasActiveSubscription = metadata?.tem_assinatura_ativa === true;
+  // 3. Checamos a coluna 'tem_assinatura_ativa' do PERFIL
+  //    Não precisamos mais do 'user_metadata'
+  const hasActiveSubscription = profile?.tem_assinatura_ativa === true;
 
   if (hasActiveSubscription) {
-    // 3. SE SIM: O usuário pagou. Mostra a página (o simulador).
+    // 4. SE SIM: O usuário pagou. Mostra o simulador.
     return <>{children}</>;
   } else {
-    // 4. SE NÃO: O usuário está logado, mas não pagou. 
-    //    Redireciona para a tela de pagamento que criamos.
+    // 5. SE NÃO: Usuário logado, mas não pagou. 
+    //    Redireciona para a tela de pagamento.
     return <Navigate to="/pagamento" replace />;
   }
 };
