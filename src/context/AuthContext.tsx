@@ -1,9 +1,10 @@
 // src/context/AuthContext.tsx
+// Esta é a versão FINAL, à prova de falhas, com try/catch/finally
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { Session } from '@supabase/supabase-js';
 
-// 1. Criamos uma interface para os dados do seu Perfil
+// Interface do Perfil
 interface Profile {
   id: string;
   first_name: string;
@@ -14,7 +15,7 @@ interface Profile {
 
 type LogoutFunction = () => Promise<void>;
 
-// 2. Atualizamos o Contexto para incluir o 'profile'
+// Interface do Contexto
 interface AuthContextType {
   session: Session | null;
   profile: Profile | null;
@@ -30,52 +31,61 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true); // Começa como true
 
   const logout: LogoutFunction = async () => {
-    setLoading(true); // Ativa o loading ao deslogar
+    setLoading(true); // Mostrar loading ao deslogar
     await supabase.auth.signOut();
-    // O onAuthStateChange vai lidar com a limpeza
   };
 
   useEffect(() => {
+    // 1. Iniciar o 'setLoading(false)' após 10 segundos
+    //    Isso é um "timeout de segurança"
+    const safetyTimeout = setTimeout(() => {
+      setLoading(false); // Força o fim do loading se tudo mais falhar
+    }, 10000); // 10 segundos
+
+    // 2. Listener normal
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         
-        if (session) {
-          // Usuário está logado, vamos buscar o perfil dele
-          setSession(session);
-          
-          const { data, error } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', session.user.id)
-            .single();
+        try {
+          if (session) {
+            setSession(session);
+            const { data, error } = await supabase
+              .from('profiles')
+              .select('*')
+              .eq('id', session.user.id)
+              .single();
 
-          if (error) {
-            console.error("AuthContext: Erro ao buscar perfil:", error.message);
-            setProfile(null);
+            if (error) {
+              console.error("AuthContext: Erro ao buscar perfil (RLS?):", error.message);
+              setProfile(null);
+            } else {
+              setProfile(data); // Sucesso!
+            }
+
           } else {
-            setProfile(data);
+            // Usuário deslogou
+            setSession(null);
+            setProfile(null);
           }
-
-        } else {
-          // Usuário deslogou, limpar tudo
+        } catch (error) {
+          console.error("AuthContext: Erro crítico no listener:", error);
           setSession(null);
           setProfile(null);
+        } finally {
+          // 3. O ponto mais importante:
+          clearTimeout(safetyTimeout); // Cancela o timeout de segurança
+          setLoading(false); // Para o loading
         }
-        
-        // O carregamento SÓ termina DEPOIS de checar sessão E perfil
-        setLoading(false);
       }
     );
 
     return () => {
       authListener?.subscription.unsubscribe();
+      clearTimeout(safetyTimeout); // Limpa o timeout se o componente for desmontado
     };
   }, []);
 
-  // --- 🚨 A CORREÇÃO ESTÁ AQUI 🚨 ---
-  // Nós removemos o '{!loading && children}' e trocamos por apenas '{children}'.
-  // Isso permite que o ProtectedRoute (que está dentro de 'children')
-  // mostre o seu próprio spinner de carregamento.
+  // O {children} aqui está correto (correção da "tela azul")
   return (
     <AuthContext.Provider value={{ session, profile, loading, logout }}>
       {children}
