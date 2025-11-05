@@ -11,8 +11,11 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Cadastro from "./pages/Cadastro";
-import ProtectedRoute from "./components/ProtectedRoute"; // Importamos a rota protegida
-import { AuthProvider } from "./context/AuthContext"; // Importamos o provedor de autenticação
+import ProtectedRoute from "./components/ProtectedRoute"; 
+import { AuthProvider } from "./context/AuthContext";
+
+// --- 1. IMPORTE A NOVA PÁGINA ---
+import Pagamento from "./pages/Pagamento";
 
 const queryClient = new QueryClient();
 
@@ -21,7 +24,6 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      {/* Envolvemos todo o app no AuthProvider para que ele saiba quem está logado */}
       <AuthProvider>
         <BrowserRouter>
           <Routes>
@@ -38,6 +40,9 @@ const App = () => (
             {/* Rotas Públicas */}
             <Route path="/login" element={<Login />} />
             <Route path="/cadastro" element={<Cadastro />} />
+
+            {/* --- 2. ADICIONE A NOVA ROTA AQUI --- */}
+            <Route path="/pagamento" element={<Pagamento />} />
             
             {/* Rota de "Não Encontrado" */}
             <Route path="*" element={<NotFound />} />
