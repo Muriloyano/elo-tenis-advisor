@@ -27,7 +27,7 @@ const Pagamento = () => {
             o pagamento é feito manualmente via Pix.
           </p>
           <p className="text-lg font-bold text-primary">
-            Valor: R$ 29,90 (Acesso Vitalício)
+            Valor: R$ 29,90 (Mês)
           </p>
           <p className="text-sm text-muted-foreground">
             Clique no botão abaixo para me chamar no WhatsApp,
