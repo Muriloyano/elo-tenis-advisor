@@ -1,5 +1,4 @@
 // src/context/AuthContext.tsx
-// Esta é a versão FINAL, à prova de falhas, com try/catch/finally
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import { Session } from '@supabase/supabase-js';

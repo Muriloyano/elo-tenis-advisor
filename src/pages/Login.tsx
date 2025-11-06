@@ -18,32 +18,27 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true); // O loading começa
+    setIsLoading(true); 
 
     try {
-      // Tentamos fazer o login
+      // O '}' extra foi REMOVIDO daqui
       const { error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
       });
 
       if (error) {
-        // Se o Supabase deu um erro (ex: senha errada)
         toast.error(error.message);
       } else {
-        // Se deu tudo certo
         toast.success("Login realizado com sucesso!");
-        navigate("/"); // Redireciona para a home
+        navigate("/"); 
       }
 
     } catch (unknownError) {
-      // Se deu um erro INESPERADO (ex: rede caiu)
       console.error("Erro inesperado no login:", unknownError);
       toast.error("Ocorreu um erro inesperado. Tente novamente.");
 
     } finally {
-      // Este bloco roda NÃO IMPORTA O QUE ACONTEÇA
-      // Isso garante que o "travamento" nunca mais aconteça.
       setIsLoading(false); 
     }
   };

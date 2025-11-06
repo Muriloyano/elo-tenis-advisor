@@ -37,7 +37,7 @@ const Cadastro = () => {
         throw new Error("Erro ao criar usuário, tente novamente.");
       }
 
-      // --- ERRO CORRIGIDO AQUI (removido o '}' extra) ---
+      // O '}' extra foi REMOVIDO daqui
       const { error: profileError } = await supabase
         .from('profiles')
         .insert({ 
@@ -91,6 +91,7 @@ const Cadastro = () => {
             
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
+              {/* A LINHA QUEBRADA FOI CORRIGIDA AQUI */}
               <Input id="email" type="email" placeholder="seu@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
             <div className="space-y-2">
