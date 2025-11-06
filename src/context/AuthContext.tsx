@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { supabase } from '../lib/supabaseClient';
 import { Session } from '@supabase/supabase-js';
 
-// Interface do Perfil
+// ... (as interfaces Profile, LogoutFunction, AuthContextType não mudam) ...
 interface Profile {
   id: string;
   first_name: string;
@@ -11,10 +11,7 @@ interface Profile {
   birth_date: string;
   tem_assinatura_ativa: boolean;
 }
-
 type LogoutFunction = () => Promise<void>;
-
-// Interface do Contexto
 interface AuthContextType {
   session: Session | null;
   profile: Profile | null;
@@ -22,47 +19,51 @@ interface AuthContextType {
   logout: LogoutFunction;
 }
 
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true); // Começa como true
+  const [loading, setLoading] = useState(true);
 
   const logout: LogoutFunction = async () => {
-    setLoading(true); // Mostrar loading ao deslogar
+    setLoading(true); 
     await supabase.auth.signOut();
   };
 
   useEffect(() => {
-    // 1. Iniciar o 'setLoading(false)' após 10 segundos
-    //    Isso é um "timeout de segurança"
     const safetyTimeout = setTimeout(() => {
-      setLoading(false); // Força o fim do loading se tudo mais falhar
-    }, 10000); // 10 segundos
+      setLoading(false); 
+    }, 10000); 
 
-    // 2. Listener normal
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         
+        console.log("AuthContext: MUDANÇA DE ESTADO DETECTADA."); // DEBUG
+
         try {
           if (session) {
+            console.log("AuthContext: Sessão encontrada! Buscando perfil para o ID:", session.user.id); // DEBUG
             setSession(session);
+            
             const { data, error } = await supabase
               .from('profiles')
               .select('*')
-              .eq('id', session.user.id)
-              .single();
+              .eq('id', session.user.id) // A falha deve estar aqui
+              .single(); // O .single() falha se não achar NADA
 
             if (error) {
-              console.error("AuthContext: Erro ao buscar perfil (RLS?):", error.message);
+              // --- ESTE É O PROVÁVEL PROBLEMA ---
+              console.error("AuthContext: ERRO AO BUSCAR PERFIL! (Provavelmente '0 rows' ou 'RLS'):", error.message); // DEBUG
               setProfile(null);
             } else {
+              console.log("AuthContext: Perfil encontrado e carregado:", data); // DEBUG
               setProfile(data); // Sucesso!
             }
 
           } else {
-            // Usuário deslogou
+            console.log("AuthContext: Sem sessão. Deslogado."); // DEBUG
             setSession(null);
             setProfile(null);
           }
@@ -71,20 +72,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setSession(null);
           setProfile(null);
         } finally {
-          // 3. O ponto mais importante:
-          clearTimeout(safetyTimeout); // Cancela o timeout de segurança
-          setLoading(false); // Para o loading
+          console.log("AuthContext: 'loading' definido para 'false'."); // DEBUG
+          clearTimeout(safetyTimeout); 
+          setLoading(false); 
         }
       }
     );
 
     return () => {
       authListener?.subscription.unsubscribe();
-      clearTimeout(safetyTimeout); // Limpa o timeout se o componente for desmontado
+      clearTimeout(safetyTimeout); 
     };
   }, []);
 
-  // O {children} aqui está correto (correção da "tela azul")
   return (
     <AuthContext.Provider value={{ session, profile, loading, logout }}>
       {children}
