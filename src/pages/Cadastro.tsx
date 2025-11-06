@@ -21,7 +21,7 @@ const Cadastro = () => {
 
   const handleCadastro = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true); // O loading começa
+    setIsLoading(true); 
 
     try {
       // Tentamos criar o usuário
@@ -31,13 +31,13 @@ const Cadastro = () => {
       });
 
       if (authError) {
-        throw authError; // Joga o erro para o 'catch'
+        throw authError; 
       }
       if (!authData.user) {
         throw new Error("Erro ao criar usuário, tente novamente.");
       }
 
-      // Tentamos criar o perfil
+      // --- ERRO CORRIGIDO AQUI (removido o '}' extra) ---
       const { error: profileError } = await supabase
         .from('profiles')
         .insert({ 
@@ -45,25 +45,20 @@ const Cadastro = () => {
           first_name: firstName,
           last_name: lastName,
           birth_date: birthDate,
-          // A coluna 'tem_assinatura_ativa' vai usar o 'false'
-          // que definimos como padrão no Supabase
         });
 
       if (profileError) {
         throw profileError; 
       }
       
-      // Se TUDO deu certo
       toast.success("Cadastro realizado com sucesso!");
       navigate("/login"); 
 
-    } catch (error: any) { // Pegamos QUALQUER erro
+    } catch (error: any) { 
       console.error("Erro no cadastro:", error);
       toast.error(error.message || "Falha no cadastro. Tente novamente.");
     
-    } finally { // (A MÁGICA)
-      // Isso roda NÃO IMPORTA O QUE ACONTEÇA
-      // e garante que o "travamento" nunca ocorra.
+    } finally { 
       setIsLoading(false);
     }
   };

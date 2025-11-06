@@ -18,37 +18,34 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true); // 1. O loading começa
+    setIsLoading(true); // O loading começa
 
-    // --- 🚨 CORREÇÃO APLICADA AQUI 🚨 ---
     try {
-      // 2. Tentamos fazer o login
+      // Tentamos fazer o login
       const { error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
       });
 
       if (error) {
-        // 3. Se o Supabase deu um erro (ex: senha errada)
+        // Se o Supabase deu um erro (ex: senha errada)
         toast.error(error.message);
       } else {
-        // 4. Se deu tudo certo
+        // Se deu tudo certo
         toast.success("Login realizado com sucesso!");
-        navigate("/"); // Redireciona para a home (onde o ProtectedRoute vai pegar)
+        navigate("/"); // Redireciona para a home
       }
 
     } catch (unknownError) {
-      // 5. Se deu um erro INESPERADO (ex: rede caiu)
+      // Se deu um erro INESPERADO (ex: rede caiu)
       console.error("Erro inesperado no login:", unknownError);
       toast.error("Ocorreu um erro inesperado. Tente novamente.");
 
     } finally {
-      // 6. (A MÁGICA)
-      // Este bloco roda NÃO IMPORTA O QUE ACONTEÇA (sucesso ou erro).
+      // Este bloco roda NÃO IMPORTA O QUE ACONTEÇA
       // Isso garante que o "travamento" nunca mais aconteça.
       setIsLoading(false); 
     }
-    // --- FIM DA CORREÇÃO ---
   };
 
   return (
