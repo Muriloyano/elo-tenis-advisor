@@ -34,23 +34,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Função de Logout
   const logout: LogoutFunction = async () => {
-    setLoading(true); // Mostra o loading ao deslogar
+    setLoading(true); // Mostra o "Verificando..."
     await supabase.auth.signOut();
-    // O onAuthStateChange vai lidar com o resto (setSession/setProfile para null)
+    // O onAuthStateChange (abaixo) vai lidar com a mudança
+    // e o 'finally' lá embaixo vai destravar a tela
   };
 
   useEffect(() => {
     // Safety Net: Se o Supabase demorar mais de 10s, destrava o app
+    // Isso impede o "Verificando sessão..." infinito na tela azul
     const safetyTimeout = setTimeout(() => {
       if (loading) {
         setLoading(false);
       }
-    }, 10000);
+    }, 10000); // 10 segundos
 
     // 6. Monitorar mudanças de autenticação (Login, Logout)
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         
+        // --- ESTA É A CORREÇÃO (Parte 1) ---
+        // Se algo der errado, queremos ter certeza de que o 'loading' é desativado
         try {
           if (session) {
             // --- USUÁRIO ESTÁ LOGADO ---
@@ -80,7 +84,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setSession(null);
           setProfile(null);
         } finally {
-          // Destrava o app (remove o "Verificando sessão...")
+          // --- ESTA É A CORREÇÃO (Parte 2) ---
+          // Não importa o que aconteça (Login, Logout, Erro),
+          // nós SEMPRE paramos o "loading".
+          // Isso conserta o "travado infinito" do Login E do Logout.
           clearTimeout(safetyTimeout); 
           setLoading(false); 
         }
