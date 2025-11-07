@@ -5,6 +5,7 @@ import { supabase } from "../lib/supabaseClient";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import Logo from "../components/Logo";
+import "../index.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
