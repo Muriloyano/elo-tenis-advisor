@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { supabase } from '../lib/supabaseClient';
 import { Session } from '@supabase/supabase-js';
 
-// ... (as interfaces Profile, LogoutFunction, AuthContextType não mudam) ...
+// 1. Definir o tipo (interface) para o perfil do usuário
 interface Profile {
   id: string;
   first_name: string;
@@ -11,59 +11,67 @@ interface Profile {
   birth_date: string;
   tem_assinatura_ativa: boolean;
 }
+
+// 2. Definir o tipo para a função de logout
 type LogoutFunction = () => Promise<void>;
+
+// 3. Definir o tipo para o Contexto (o que ele vai fornecer)
 interface AuthContextType {
   session: Session | null;
-  profile: Profile | null;
-  loading: boolean;
-  logout: LogoutFunction;
+  profile: Profile | null; // O perfil do usuário
+  loading: boolean;      // Flag de carregamento
+  logout: LogoutFunction; // Função de logout
 }
 
-
+// 4. Criar o Contexto
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// 5. Criar o Provedor (o componente que vai "envolver" o app)
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // Começa true
 
+  // Função de Logout
   const logout: LogoutFunction = async () => {
-    setLoading(true); 
+    setLoading(true); // Mostra o loading ao deslogar
     await supabase.auth.signOut();
+    // O onAuthStateChange vai lidar com o resto (setSession/setProfile para null)
   };
 
   useEffect(() => {
+    // Safety Net: Se o Supabase demorar mais de 10s, destrava o app
     const safetyTimeout = setTimeout(() => {
-      setLoading(false); 
-    }, 10000); 
+      if (loading) {
+        setLoading(false);
+      }
+    }, 10000);
 
+    // 6. Monitorar mudanças de autenticação (Login, Logout)
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         
-        console.log("AuthContext: MUDANÇA DE ESTADO DETECTADA."); // DEBUG
-
         try {
           if (session) {
-            console.log("AuthContext: Sessão encontrada! Buscando perfil para o ID:", session.user.id); // DEBUG
+            // --- USUÁRIO ESTÁ LOGADO ---
             setSession(session);
             
+            // Buscar o perfil do usuário no banco de dados
             const { data, error } = await supabase
               .from('profiles')
               .select('*')
-              .eq('id', session.user.id) // A falha deve estar aqui
-              .single(); // O .single() falha se não achar NADA
+              .eq('id', session.user.id)
+              .single(); // Espera UM resultado
 
             if (error) {
-              // --- ESTE É O PROVÁVEL PROBLEMA ---
-              console.error("AuthContext: ERRO AO BUSCAR PERFIL! (Provavelmente '0 rows' ou 'RLS'):", error.message); // DEBUG
-              setProfile(null);
+              console.error("AuthContext: Erro ao buscar perfil (RLS?):", error.message);
+              setProfile(null); // Perfil não encontrado ou RLS bloqueou
             } else {
-              console.log("AuthContext: Perfil encontrado e carregado:", data); // DEBUG
-              setProfile(data); // Sucesso!
+              setProfile(data); // Perfil encontrado!
             }
 
           } else {
-            console.log("AuthContext: Sem sessão. Deslogado."); // DEBUG
+            // --- USUÁRIO ESTÁ DESLOGADO ---
             setSession(null);
             setProfile(null);
           }
@@ -72,19 +80,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setSession(null);
           setProfile(null);
         } finally {
-          console.log("AuthContext: 'loading' definido para 'false'."); // DEBUG
+          // Destrava o app (remove o "Verificando sessão...")
           clearTimeout(safetyTimeout); 
           setLoading(false); 
         }
       }
     );
 
+    // 7. Limpar o listener quando o componente for "desmontado"
     return () => {
       authListener?.subscription.unsubscribe();
-      clearTimeout(safetyTimeout); 
+      clearTimeout(safetyTimeout);
     };
-  }, []);
+  }, []); // [] = Rodar apenas uma vez, quando o app carregar
 
+  // 8. Fornecer os valores para os componentes "filhos"
   return (
     <AuthContext.Provider value={{ session, profile, loading, logout }}>
       {children}
@@ -92,6 +102,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// 9. Criar o "hook" customizado para facilitar o uso
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
