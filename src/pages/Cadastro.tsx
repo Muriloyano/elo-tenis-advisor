@@ -1,11 +1,11 @@
 // src/pages/Cadastro.tsx
+import "../index.css"; // A correção do CSS
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import Logo from "../components/Logo";
-import "../index.css";
 
 const Cadastro = () => {
   const [firstName, setFirstName] = useState("");
@@ -42,22 +42,21 @@ const Cadastro = () => {
         first_name: firstName,
         last_name: lastName,
         birth_date: birthDate,
-        tem_assinatura_ativa: false, // Padrão
+        tem_assinatura_ativa: false, // Isso não importa mais, mas é bom manter
       });
 
       if (profileError) {
-        // Se o perfil falhar, o usuário ainda existe, mas logamos o erro
         console.error("Erro ao criar perfil:", profileError.message);
-        // O RLS (new row violates...) que vimos antes cairia aqui
         throw profileError; 
       }
 
       toast.dismiss();
       toast.success("Conta criada com sucesso!");
       
-      // Como a confirmação de email está desativada, o signUp já loga o usuário.
-      // Navegamos para o /pagamento para o ProtectedRoute redirecionar.
-      navigate("/pagamento");
+      // --- ESTA É A MUDANÇA ---
+      // Antes: navigate("/pagamento")
+      // Agora:
+      navigate("/"); // Envia o usuário direto para o simulador (via ProtectedRoute)
 
     } catch (error: any) {
       toast.dismiss();
@@ -74,10 +73,8 @@ const Cadastro = () => {
       toast.error(userMessage);
 
     } finally {
-      // --- ESTA É A CORREÇÃO ---
-      // Garante que o botão seja destravado, não importa o que aconteça.
+      // Correção do "loading infinito"
       setIsLoading(false);
-      // --- FIM DA CORREÇÃO ---
     }
   };
 

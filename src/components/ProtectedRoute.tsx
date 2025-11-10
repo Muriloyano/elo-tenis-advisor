@@ -2,18 +2,19 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { ReactNode } from 'react';
-import { Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react'; // Mantemos seu loader!
 
 interface ProtectedRouteProps {
   children: ReactNode;
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  // 1. AGORA PUXAMOS O 'profile' DO NOSSO CONTEXTO ATUALIZADO
-  //    O 'loading' agora espera tanto pela sessão QUANTO pelo perfil
-  const { session, profile, loading } = useAuth(); 
+  // 1. SÓ precisamos do 'session' e 'loading'.
+  //    Não precisamos mais do 'profile' porque não vamos checar a assinatura.
+  const { session, loading } = useAuth(); 
 
   if (loading) {
+    // 2. Usando o seu loading spinner (que você colou)
     return (
       <div className="min-h-screen flex items-center justify-center">
         <Loader2 className="h-10 w-10 animate-spin text-primary" />
@@ -22,25 +23,15 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     );
   }
 
+  // 3. Se NÃO estiver logado (sem sessão), vai para o login.
+  //    Isso protege o simulador de visitantes anônimos.
   if (!session) {
-    // 2. Isso continua igual: sem sessão, vai para o login
     return <Navigate to="/login" replace />;
   }
 
-  // --- 🚨 LÓGICA DO PAYWALL (PLANO B) 🚨 ---
-
-  // 3. Checamos a coluna 'tem_assinatura_ativa' do PERFIL
-  //    Não precisamos mais do 'user_metadata'
-  const hasActiveSubscription = profile?.tem_assinatura_ativa === true;
-
-  if (hasActiveSubscription) {
-    // 4. SE SIM: O usuário pagou. Mostra o simulador.
-    return <>{children}</>;
-  } else {
-    // 5. SE NÃO: Usuário logado, mas não pagou. 
-    //    Redireciona para a tela de pagamento.
-    return <Navigate to="/pagamento" replace />;
-  }
+  // 4. Se ESTIVER logado (passou pelo 'if' acima), deixa o usuário entrar.
+  //    Toda a lógica do 'tem_assinatura_ativa' e do '/pagamento' foi REMOVIDA.
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;
