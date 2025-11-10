@@ -1,22 +1,18 @@
-// src/pages/Index.tsx
+// src/pages/Index.tsx (Versão Limpa, Sem Login)
 import { useState, useEffect } from "react";
 import Papa from "papaparse";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react"; 
-import { supabase } from "../lib/supabaseClient"; 
-import { useAuth } from "../context/AuthContext";
-// --- CORREÇÃO DE IMPORTS (Caminhos relativos) ---
+// REMOVEMOS: Loader2, supabase, useAuth
 import { MatchSimulator, SimulationData } from "../components/MatchSimulator";
 import { MatchResult, AnalysisResult } from "../components/MatchResult";
 import { Player } from "../types"; 
-import { UserMenu } from "@/components/UserMenu"; 
-// --- FIM DA CORREÇÃO ---
-import Logo from "../components/Logo"; // <-- Importação da Logo (default)
-import "../index.css"
+// REMOVEMOS: UserMenu
+import Logo from "../components/Logo";
+import "../index.css";
 
 
 const Index = () => {
-  const { loading } = useAuth(); 
+  // REMOVEMOS: const { loading } = useAuth();
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [isLoading, setIsLoading] = useState(false); 
   const [allPlayers, setAllPlayers] = useState<Player[]>([]);
@@ -42,7 +38,7 @@ const Index = () => {
     });
   }, []); 
 
-  // --- Funções de Cálculo (Mantenha as suas) ---
+  // --- Funções de Cálculo (Mantidas) ---
   const calculateEloProbs = (elo1: number, elo2: number) => {
     const eloDiff = elo1 - elo2;
     const prob1 = 1 / (1 + Math.pow(10, -eloDiff / 400));
@@ -116,30 +112,17 @@ const Index = () => {
     setResult(null);
   };
 
-  if (loading) {
-      return (
-          <div className="min-h-screen flex items-center justify-center">
-              <Loader2 className="h-10 w-10 animate-spin text-primary" />
-              <p className="ml-4 text-muted-foreground">Verificando sessão...</p>
-          </div>
-      );
-  }
+  // REMOVEMOS: O bloco 'if (loading)' que mostrava "Verificando sessão..."
 
   return (
-    // Fundo da página (azul claro)
-    // Removido 'bg-gradient-result'
     <div className="relative min-h-screen">
-      
-      <div className="fixed top-4 right-4 z-50"> 
-          <UserMenu />
-      </div>
 
-      {/* Padding-top para o menu fixo */}
-      <div className="container max-w-2xl mx-auto px-4 py-8 md:py-12 pt-20"> 
-        
-        {/* Logo centralizada acima do simulador */}
+      {/* REMOVEMOS: O <UserMenu /> (botão de logout) */}
+
+      <div className="container max-w-2xl mx-auto px-4 py-8 md:py-12"> 
+
         <Logo className="w-20 h-20 mb-6 mx-auto" /> 
-        
+
         {!result ? (
           <MatchSimulator 
             onSimulate={handleSimulate} 
@@ -151,8 +134,6 @@ const Index = () => {
           <MatchResult result={result} onBack={handleBack} />
         )}
       </div>
-
-      {/* Elementos decorativos (blur) removidos */}
     </div>
   );
 };
