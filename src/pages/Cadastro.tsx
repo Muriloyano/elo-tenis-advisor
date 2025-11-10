@@ -22,7 +22,7 @@ const Cadastro = () => {
     toast.loading("Criando sua conta...");
 
     try {
-      // 1. Criar o usuário na Autenticação
+      // 1. Criar o utilizador na Autenticação
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
@@ -38,11 +38,11 @@ const Cadastro = () => {
 
       // 2. Inserir o perfil no banco de dados
       const { error: profileError } = await supabase.from("profiles").insert({
-        id: authData.user.id, // Usa o ID do usuário criado
+        id: authData.user.id, // Usa o ID do utilizador criado
         first_name: firstName,
         last_name: lastName,
         birth_date: birthDate,
-        tem_assinatura_ativa: false, // Isso não importa mais, mas é bom manter
+        tem_assinatura_ativa: false, // Isso não importa mais
       });
 
       if (profileError) {
@@ -52,11 +52,11 @@ const Cadastro = () => {
 
       toast.dismiss();
       toast.success("Conta criada com sucesso!");
-      
+
       // --- ESTA É A MUDANÇA ---
       // Antes: navigate("/pagamento")
       // Agora:
-      navigate("/"); // Envia o usuário direto para o simulador (via ProtectedRoute)
+      navigate("/"); // Envia o utilizador direto para o simulador
 
     } catch (error: any) {
       toast.dismiss();
