@@ -11,7 +11,7 @@ rank,player,elo
 10,Casper Ruud,1951.1
 11,Alexander Bublik,1947.8
 12,Ben Shelton,1947.5
-13,Learner Tien,1943.0
+13,Learner Tien,1945.4
 14,Jack Draper,1932.4
 15,Joao Fonseca,1931.9
 16,Jiri Lehecka,1921.3
@@ -25,9 +25,9 @@ rank,player,elo
 24,Arthur Fils,1872.6
 25,Stefanos Tsitsipas,1866.7
 26,Jakub Mensik,1864.1
-27,Tommy Paul,1861.8
-28,Flavio Cobolli,1859.9
-29,Grigor Dimitrov,1859.4
+27,Flavio Cobolli,1859.9
+28,Grigor Dimitrov,1859.4
+29,Tommy Paul,1856.8
 30,Cameron Norrie,1855.9
 31,Valentin Vacherot,1855.4
 32,Matteo Berrettini,1852.4
@@ -60,27 +60,27 @@ rank,player,elo
 59,Yannick Hanfmann,1771.6
 60,Nuno Borges,1771.5
 61,Reilly Opelka,1768.5
-62,Eliot Spizzirri,1766.9
-63,Matteo Arnaldi,1764.8
-64,Benjamin Bonzi,1763.9
-65,Alex Michelsen,1762.4
-66,Giovanni Mpetshi Perricard,1762.4
-67,Daniel Altmaier,1762.1
-68,Marcos Giron,1762.0
-69,Luciano Darderi,1760.9
-70,Kei Nishikori,1759.2
-71,Jan Lennard Struff,1758.0
-72,Leandro Riedi,1746.8
-73,Miomir Kecmanovic,1746.4
-74,Jacob Fearnley,1745.8
-75,Alexandre Muller,1744.6
-76,Dino Prizmic,1744.5
-77,Ethan Quinn,1742.3
-78,Valentin Royer,1741.2
-79,Borna Coric,1740.9
-80,Ignacio Buse,1739.3
-81,Francisco Comesana,1737.7
-82,Rafael Jodar,1737.3
+62,Rafael Jodar,1766.9
+63,Eliot Spizzirri,1766.9
+64,Matteo Arnaldi,1764.8
+65,Benjamin Bonzi,1763.9
+66,Alex Michelsen,1762.4
+67,Giovanni Mpetshi Perricard,1762.4
+68,Daniel Altmaier,1762.1
+69,Marcos Giron,1762.0
+70,Luciano Darderi,1760.9
+71,Kei Nishikori,1759.2
+72,Jan Lennard Struff,1758.0
+73,Alexander Blockx,1753.6
+74,Leandro Riedi,1746.8
+75,Miomir Kecmanovic,1746.4
+76,Jacob Fearnley,1745.8
+77,Alexandre Muller,1744.6
+78,Ethan Quinn,1742.3
+79,Valentin Royer,1741.2
+80,Borna Coric,1740.9
+81,Ignacio Buse,1739.3
+82,Francisco Comesana,1737.7
 83,Pablo Carreno Busta,1736.0
 84,Yoshihito Nishioka,1734.8
 85,Cristian Garin,1734.2
@@ -94,12 +94,12 @@ rank,player,elo
 93,Dominik Koepfer,1719.9
 94,Adrian Mannarino,1718.8
 95,Jesper De Jong,1717.1
-96,Mariano Navone,1713.1
-97,Zachary Svajda,1709.9
-98,Stan Wawrinka,1708.3
-99,Nicolas Jarry,1706.7
-100,Camilo Ugo Carabelli,1704.5
-101,Alexander Blockx,1704.0
+96,Dino Prizmic,1715.5
+97,Mariano Navone,1713.1
+98,Zachary Svajda,1709.9
+99,Stan Wawrinka,1708.3
+100,Nicolas Jarry,1706.7
+101,Camilo Ugo Carabelli,1704.5
 102,Laslo Djere,1702.9
 103,Pablo Llamas Ruiz,1700.0
 104,Zhizhen Zhang,1699.2
@@ -116,17 +116,17 @@ rank,player,elo
 115,Christopher Oconnell,1679.6
 116,Bu Yunchaokete,1675.4
 117,Alexander Shevchenko,1675.0
-118,Martin Landaluce,1674.7
+118,Nishesh Basavareddy,1673.4
 119,Roberto Carballes Baena,1673.4
 120,Dalibor Svrcina,1673.2
 121,Jerome Kym,1671.1
-122,Juan Manuel Cerundolo,1669.1
-123,Mattia Bellucci,1668.3
-124,Arthur Fery,1665.4
-125,Zsombor Piros,1664.3
-126,Emilio Nava,1663.9
-127,Mark Lajal,1662.1
-128,Nishesh Basavareddy,1661.6
+122,Nicolai Budkov Kjaer,1669.6
+123,Juan Manuel Cerundolo,1669.1
+124,Mattia Bellucci,1668.3
+125,Arthur Fery,1665.4
+126,Zsombor Piros,1664.3
+127,Emilio Nava,1663.9
+128,Mark Lajal,1662.1
 129,Vit Kopriva,1661.1
 130,Giulio Zeppieri,1659.5
 131,Richard Gasquet,1659.2
@@ -135,20 +135,20 @@ rank,player,elo
 134,Sebastian Baez,1654.4
 135,Filip Misolic,1653.8
 136,Alex Molcan,1649.7
-137,Nicolai Budkov Kjaer,1649.2
-138,Jason Kubler,1649.2
-139,Gilles Arnaud Bailly,1648.5
-140,Nicolas Moreno De Alboran,1648.4
-141,Quentin Halys,1645.9
-142,Andrea Vavassori,1644.8
-143,Coleman Wong,1643.3
-144,James Duckworth,1643.1
-145,Sho Shimabukuro,1641.7
-146,Dusan Lajovic,1641.5
-147,Luca Nardi,1641.4
-148,Luka Mikrut,1641.3
-149,Jan Choinski,1641.1
-150,Elmer Moller,1638.0
+137,Jason Kubler,1649.2
+138,Gilles Arnaud Bailly,1648.5
+139,Nicolas Moreno De Alboran,1648.4
+140,Quentin Halys,1645.9
+141,Andrea Vavassori,1644.8
+142,Coleman Wong,1643.3
+143,James Duckworth,1643.1
+144,Sho Shimabukuro,1641.7
+145,Dusan Lajovic,1641.5
+146,Luca Nardi,1641.4
+147,Luka Mikrut,1641.3
+148,Jan Choinski,1641.1
+149,Elmer Moller,1638.0
+150,Martin Landaluce,1637.5
 151,Aslan Karatsev,1633.5
 152,Rinky Hijikata,1633.3
 153,Vilius Gaubas,1628.8
@@ -185,46 +185,46 @@ rank,player,elo
 184,Hugo Grenier,1589.3
 185,Lukas Klein,1588.7
 186,Hugo Dellien,1586.1
-187,Justin Engel,1582.6
-188,Daniel Elahi Galan,1582.4
-189,Federico Coria,1580.0
-190,Yi Zhou,1577.8
-191,Jurij Rodionov,1576.4
-192,Facundo Diaz Acosta,1576.4
-193,Tristan Schoolkate,1575.8
-194,Cedrik Marcel Stebe,1574.7
-195,Martin Damm,1574.4
-196,Maximilian Marterer,1574.4
-197,Felipe Meligeni Alves,1574.0
-198,Pierre Hugues Herbert,1573.8
-199,Michael Mmoh,1573.2
-200,Colton Smith,1572.4
-201,Daniel Merida Aguilar,1570.8
-202,Henrique Rocha,1570.7
-203,Chun Hsin Tseng,1567.4
-204,Ilya Ivashka,1566.9
-205,Constant Lestienne,1563.6
-206,August Holmgren,1563.1
-207,Stefano Travaglia,1558.0
-208,Mikhail Kukushkin,1558.0
-209,Albert Ramos,1557.7
-210,Sumit Nagal,1556.9
-211,Dan Added,1556.7
-212,Jack Pinnington Jones,1555.6
-213,Andrea Pellegrino,1552.4
-214,Liam Draxl,1551.9
-215,Zdenek Kolar,1551.4
-216,Thiago Monteiro,1550.8
-217,Pavel Kotov,1550.4
-218,Alejandro Moro Canas,1548.3
-219,Brandon Holt,1546.8
-220,Henri Squire,1543.9
-221,Trevor Svajda,1543.6
-222,Gonzalo Bueno,1542.3
-223,Bernard Tomic,1541.6
-224,Alexander Ritschard,1541.5
-225,Federico Agustin Gomez,1540.4
-226,Juan Carlos Prado Angelo,1539.2
+187,Daniel Elahi Galan,1582.4
+188,Federico Coria,1580.0
+189,Yi Zhou,1577.8
+190,Jurij Rodionov,1576.4
+191,Facundo Diaz Acosta,1576.4
+192,Tristan Schoolkate,1575.8
+193,Cedrik Marcel Stebe,1574.7
+194,Martin Damm,1574.4
+195,Maximilian Marterer,1574.4
+196,Felipe Meligeni Alves,1574.0
+197,Pierre Hugues Herbert,1573.8
+198,Michael Mmoh,1573.2
+199,Colton Smith,1572.4
+200,Daniel Merida Aguilar,1570.8
+201,Henrique Rocha,1570.7
+202,Chun Hsin Tseng,1567.4
+203,Ilya Ivashka,1566.9
+204,Constant Lestienne,1563.6
+205,August Holmgren,1563.1
+206,Stefano Travaglia,1558.0
+207,Mikhail Kukushkin,1558.0
+208,Albert Ramos,1557.7
+209,Sumit Nagal,1556.9
+210,Dan Added,1556.7
+211,Jack Pinnington Jones,1555.6
+212,Andrea Pellegrino,1552.4
+213,Liam Draxl,1551.9
+214,Zdenek Kolar,1551.4
+215,Thiago Monteiro,1550.8
+216,Pavel Kotov,1550.4
+217,Alejandro Moro Canas,1548.3
+218,Brandon Holt,1546.8
+219,Henri Squire,1543.9
+220,Trevor Svajda,1543.6
+221,Gonzalo Bueno,1542.3
+222,Bernard Tomic,1541.6
+223,Alexander Ritschard,1541.5
+224,Federico Agustin Gomez,1540.4
+225,Juan Carlos Prado Angelo,1539.2
+226,Justin Engel,1538.4
 227,Moez Echargui,1536.6
 228,Yu Hsiou Hsu,1536.3
 229,Elias Ymer,1536.0
